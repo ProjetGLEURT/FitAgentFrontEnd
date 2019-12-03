@@ -1,5 +1,8 @@
 {
   "name": "FitAgent",
-  "integrations": {},
-  "type": "angular"
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "ad8f0040"
 }
