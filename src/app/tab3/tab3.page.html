@@ -6,4 +6,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+  <div class="intro-wrapper">
+    <p>Appuyez sur 'Start !' puis parlez à votre appareil de manière clair et reposé</p>
+    <ion-button ion-button (click)="startListening()" color="success">Start</ion-button>
+    <ion-button ion-button (click)="stopListening()" color="danger">Stop</ion-button>
+  </div>
+  <ion-list class="matches-wrapper">
+    <ion-item *ngIf="matches.length <= 0">
+      Aucun résultat :S
+    </ion-item>
+    <ion-item *ngFor="let match of matches">
+      {{ match }}
+    </ion-item>
+  </ion-list>
+
+  <ion-button ion-button (click)="sendMessage()" color="success">Envoyer la premiére reponse</ion-button>
+</ion-content>
+
+
+<p id="p2">Hello World!</p>

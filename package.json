@@ -20,14 +20,20 @@
     "@angular/platform-browser-dynamic": "~8.1.2",
     "@angular/router": "~8.1.2",
     "@ionic-native/core": "^5.0.0",
-    "@ionic-native/speech-recognition": "^5.17.1",
+    "@ionic-native/speech-recognition": "^5.18.0",
     "@ionic-native/splash-screen": "^5.0.0",
     "@ionic-native/status-bar": "^5.0.0",
+    "@ionic-native/text-to-speech": "^5.0.0",
     "@ionic/angular": "^4.7.1",
-    "cordova-plugin-speechrecognition": "^1.2.0",
-    "cordova-android": "8.1.0",
+    "api-ai-javascript": "^2.0.0-beta.21",
+    "cordova-android": "^8.1.0",
+    "cordova-browser": "^6.0.0",
+    "cordova-plugin-apiai": "^1.7.4",
     "cordova-plugin-ionic": "^5.4.5",
+    "cordova-plugin-speechrecognition": "^1.2.0",
+    "cordova-plugin-tts": "^0.2.3",
     "core-js": "^2.5.4",
+    "dialogflow": "^1.0.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
@@ -51,7 +57,7 @@
     "cordova-plugin-ionic-webview": "^4.1.3",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
-    "cordova-plugin-whitelist": "^1.3.3",
+    "cordova-plugin-whitelist": "^1.3.4",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
@@ -83,9 +89,12 @@
         "MAX_STORE": "2",
         "MIN_BACKGROUND_DURATION": "30",
         "UPDATE_API": "https://api.ionicjs.com"
-      }
+      },
+      "cordova-plugin-tts": {},
+      "cordova-plugin-apiai": {}
     },
     "platforms": [
+      "browser",
       "android"
     ]
   }
