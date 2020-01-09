@@ -29,6 +29,7 @@
     "cordova-android": "^8.1.0",
     "cordova-browser": "^6.0.0",
     "cordova-plugin-apiai": "^1.7.4",
+    "cordova-plugin-inappbrowser": "^3.1.0",
     "cordova-plugin-ionic": "^5.4.5",
     "cordova-plugin-speechrecognition": "^1.2.0",
     "cordova-plugin-tts": "^0.2.3",
@@ -91,7 +92,8 @@
         "UPDATE_API": "https://api.ionicjs.com"
       },
       "cordova-plugin-tts": {},
-      "cordova-plugin-apiai": {}
+      "cordova-plugin-apiai": {},
+      "cordova-plugin-inappbrowser": {}
     },
     "platforms": [
       "browser",

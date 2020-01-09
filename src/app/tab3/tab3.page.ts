@@ -6,10 +6,7 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { FormControl, FormBuilder } from '@angular/forms';
 
-export interface Message {
-  from: 'bot' | 'user';
-  text: string;
-}
+
 
 
 @Component({
@@ -21,7 +18,6 @@ export class Tab3Page {
   actualspeech: string = '';
   accessToken: string = '9e3fa9be49fa4347a538806b647630f7';
   client;
-  messages: Message[] = [];
   messageForm: any;
   chatBox: any;
   isLoading: boolean;
@@ -51,27 +47,25 @@ export class Tab3Page {
     if (!req || req === '') {
       return;
     }
-    this.messages.push({ from: 'user', text: req });
     this.isLoading = true;
 
     this.client
       .textRequest(req)
       .then(response => {
-        /* do something */
         console.log('res');
         console.log(response);
-        this.messages.push({
-          from: 'bot',
-          text: response.result.fulfillment.speech
-        });
         document.getElementById("p2").innerHTML = response.result.fulfillment.speech;
-        this.tts.speak(response.result.fulfillment.speech)
+        this.tts.speak(
+          {
+            text: response.result.fulfillment.speech,
+            locale: "fr-FR",
+            rate: 1
+          })
         .then(() => console.log('Success'))
         .catch((reason: any) => console.log(reason));
         this.isLoading = false;
       })
       .catch(error => {
-        /* do something here too */
         console.log('error');
         console.log(error);
       });
@@ -93,7 +87,7 @@ export class Tab3Page {
     .subscribe(
       (matches: Array<string>) => {
         this.isListening = false;
-        this.matches = matches;
+        this.matches[0] = matches[0];
         this.changeDetectorRef.detectChanges();
         this.actualspeech=matches[0];
       },
