@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { googleId } from '../APIKeys/googleId';
+import { GoogleService } from './global';
  
 declare var window: any;
  
@@ -11,14 +12,16 @@ declare var window: any;
 export class LoginService {
  
  constructor(private http: HttpClient,
-   private platform: Platform,
-   ) {}
+   private platform: Platform,public GoogleService:GoogleService) {}
  
  public login() {
+   
    this.platform.ready()
      .then(this.googleLogin)
      .then(success => 
 {
+  this.GoogleService.tokenGoogle=success["access_token"];
+  this.GoogleService.loginState=true;
   console.log('success')
 }
        , (error) => {
@@ -53,7 +56,7 @@ export class LoginService {
             console.log(parsedResponse);
             console.log(parsedResponse["access_token"]);
             document.getElementById("p3").innerHTML = parsedResponse["access_token"];
-           resolve(parsedResponse);
+            resolve(parsedResponse);
          } else {
            reject("Problème d’authentification avec Google");
          }

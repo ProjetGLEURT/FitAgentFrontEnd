@@ -14,6 +14,9 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { LoginService } from './login.service';
 import { HttpClient,HttpClientModule } from '@angular/common/http';
+import { GoogleService } from './global';
+ 
+import { HTTP } from '@ionic-native/http/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +29,8 @@ import { HttpClient,HttpClientModule } from '@angular/common/http';
     SplashScreen,
     LoginService,
     HttpClient,
+    HTTP,
+    GoogleService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

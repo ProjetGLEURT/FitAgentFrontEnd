@@ -4,6 +4,8 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
+import { GoogleService } from './../global';
 
 
 
@@ -13,56 +15,49 @@ import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-  isSpeechAvailable=false;
-  isListening = false;
-  matches: Array<string> = [];
+  jsonevent:any;
 
-  constructor(private speechRecognition: SpeechRecognition,private tts: TextToSpeech,private platform: Platform,private changeDetectorRef: ChangeDetectorRef) {
-    platform.ready().then(() => {
-
-      // Check if SpeechRecognition available or not :/
-      this.speechRecognition.isRecognitionAvailable()
-      .then((available: boolean) => {
-        this.isSpeechAvailable = available;
-        document.getElementById("p1").innerHTML = "Permission accordée";
-      })
-      
+  constructor(public GoogleService:GoogleService,private speechRecognition: SpeechRecognition,private tts: TextToSpeech,private platform: Platform,private changeDetectorRef: ChangeDetectorRef,private http: HTTP) {
+    platform.ready().then(() => {      
     });
   }
-  public sayHello(): void {
-    this.tts.speak('Hello World')
-  .then(() => console.log('Success'))
-  .catch((reason: any) => console.log(reason));
+
+  public loadEvent(): void {
+    console.log(this.GoogleService.tokenGoogle)
+    var divEvent=document.getElementById("listEvent")
+    divEvent.innerHTML=""
+    var buttonload=document.getElementById("loadEvent")
+    buttonload.innerHTML="Afficher vos activités<ion-spinner name='crescent'></ion-spinner>"
+    this.http.get('https://us-central1-fitagent.cloudfunctions.net/apiActiviteUser', {}, {})
+    .then(data => {
+      buttonload.innerHTML="Afficher vos activités"
+      console.log(data.data); // data received by server
+      var jsonData = JSON.parse(data.data);
+      this.jsonevent=jsonData;
+      console.log(jsonData)
+      divEvent.innerHTML+="<ion-list><ion-item><ion-label>Activités</ion-label><ion-select #C ionChange='onChange(C.value)' id='actlist'></ion-select></ion-item></ion-list>"
+      
+      for (var key in jsonData) {
+        console.log("Key: " + key); 
+        console.log("Value: " + jsonData[key]); 
+        var infos=jsonData[key]
+
+        var actlist=document.getElementById("actlist")
+        actlist.innerHTML+="<ion-select-option value="+infos["name"]+">"+infos["name"]+"</ion-select-option>"
+    }
+    })
+    .catch(error => {
+      console.log(error.status);
+      console.log(error.error); // error message as string
+      console.log(error.headers);
+    });
   }
 
-  public startListening(): void {
-      this.isListening = true;
-      this.matches = [];
-      
-      let options = {
-        language: 'fr-FR',
-        matches: 5,
-        prompt: 'Je vous écoute ! :)',  // Android only
-        showPopup: true,                // Android only
-        showPartial: false              // iOS only
-      }
-      this.speechRecognition.startListening(options)
-      .subscribe(
-        (matches: Array<string>) => {
-          this.isListening = false;
-          this.matches = matches;
-          this.changeDetectorRef.detectChanges();
-        },
-        (onerror) => {
-          this.isListening = false;
-          this.changeDetectorRef.detectChanges();
-          console.log(onerror);
-        }
-      )
-    }
 
-  public stopListening(): void {
-    this.speechRecognition.stopListening();
+
+  public onChange(value:string): void {
+    var divEvent=document.getElementById("listEvent")
+    divEvent.innerHTML=value
   }
 
 }
