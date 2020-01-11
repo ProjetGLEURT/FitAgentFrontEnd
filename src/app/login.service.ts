@@ -55,7 +55,6 @@ export class LoginService {
            parsedResponse["access_token"] !== null) {
             console.log(parsedResponse);
             console.log(parsedResponse["access_token"]);
-            document.getElementById("p3").innerHTML = parsedResponse["access_token"];
             resolve(parsedResponse);
          } else {
            reject("Problème d’authentification avec Google");

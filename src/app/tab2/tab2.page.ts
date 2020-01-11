@@ -16,6 +16,9 @@ import { GoogleService } from './../global';
 })
 export class Tab2Page {
   jsonevent:any;
+  actualeventshow:string="";
+  hideDel=false;
+  hideList=false;
 
   constructor(public GoogleService:GoogleService,private speechRecognition: SpeechRecognition,private tts: TextToSpeech,private platform: Platform,private changeDetectorRef: ChangeDetectorRef,private http: HTTP) {
     platform.ready().then(() => {      
@@ -23,27 +26,26 @@ export class Tab2Page {
   }
 
   public loadEvent(): void {
+    this.hideDel=false
+    this.hideList=true
     console.log(this.GoogleService.tokenGoogle)
-    var divEvent=document.getElementById("listEvent")
-    divEvent.innerHTML=""
     var buttonload=document.getElementById("loadEvent")
-    buttonload.innerHTML="Afficher vos activités<ion-spinner name='crescent'></ion-spinner>"
+    buttonload.innerHTML="Charger vos activités<ion-spinner name='crescent'></ion-spinner>"
+
     this.http.get('https://us-central1-fitagent.cloudfunctions.net/apiActiviteUser', {}, {})
     .then(data => {
-      buttonload.innerHTML="Afficher vos activités"
+      buttonload.innerHTML="Charger vos activités"
       console.log(data.data); // data received by server
       var jsonData = JSON.parse(data.data);
       this.jsonevent=jsonData;
+      var actlist=document.getElementById("actlist")
+      actlist.innerHTML=""
       console.log(jsonData)
-      divEvent.innerHTML+="<ion-list><ion-item><ion-label>Activités</ion-label><ion-select #C ionChange='onChange(C.value)' id='actlist'></ion-select></ion-item></ion-list>"
-      
       for (var key in jsonData) {
         console.log("Key: " + key); 
         console.log("Value: " + jsonData[key]); 
         var infos=jsonData[key]
-
-        var actlist=document.getElementById("actlist")
-        actlist.innerHTML+="<ion-select-option value="+infos["name"]+">"+infos["name"]+"</ion-select-option>"
+        actlist.innerHTML+="<ion-select-option value="+key+">"+infos["name"]+"</ion-select-option>"
     }
     })
     .catch(error => {
@@ -55,9 +57,46 @@ export class Tab2Page {
 
 
 
-  public onChange(value:string): void {
-    var divEvent=document.getElementById("listEvent")
-    divEvent.innerHTML=value
+  public showselected(value:string): void {
+    console.log(value)
+    this.hideDel=true
+    this.actualeventshow=value
+    var divlEvent=document.getElementById("infosEvent")
+    let listeinfos="<ion-list>"
+    listeinfos+="<ion-list-header><h2>"+this.jsonevent[value]["name"]+"</h2></ion-list-header>"
+    listeinfos+="<ion-item><ion-label>Adresse : "+this.jsonevent[value]["address"]+"</ion-label></ion-item>"
+    listeinfos+="<ion-item><ion-label>Durée : "+this.jsonevent[value]["duration"]+"</ion-label></ion-item>"
+    listeinfos+="<ion-item><ion-label>Fréquence : "+this.jsonevent[value]["frequence"]+"</ion-label></ion-item>"
+    listeinfos+="<ion-item><ion-label>Nombre de seance sur la période : "+this.jsonevent[value]["nbSeance"]+"</ion-label></ion-item>"
+    listeinfos+="<ion-item><ion-label>Interieure/Exterieure : "+this.jsonevent[value]["placeType"]+"</ion-label></ion-item>"
+    listeinfos+="<ion-item><ion-label>Trajet depuis domicile : "+this.jsonevent[value]["homeTime"]+" min</ion-label></ion-item>"
+    listeinfos+="<ion-item><ion-label>Trajet depuis Travail : "+this.jsonevent[value]["workTime"]+" min</ion-label></ion-item>"
+    listeinfos+="</ion-list>"
+    divlEvent.innerHTML=listeinfos
+  }
+
+  public delEvent(): void {
+    console.log(this.GoogleService.tokenGoogle)
+    var buttondel=document.getElementById("loadEvent")
+    buttondel.innerHTML="Supprimer cette activité<ion-spinner name='crescent'></ion-spinner>"
+
+    this.http.get('https://us-central1-fitagent.cloudfunctions.net/apiSupprimerActiviteUser?id='+this.actualeventshow, {}, {})
+    .then(data => {
+      buttondel.innerHTML="Supprimer cette activité"
+      var actlist=document.getElementById("actlist")
+      actlist.innerHTML=""
+      var divlEvent=document.getElementById("infosEvent")
+      divlEvent.innerHTML=""
+      this.loadEvent()
+      console.log(data.data); // data received by server
+
+      
+    })
+    .catch(error => {
+      console.log(error.status);
+      console.log(error.error); // error message as string
+      console.log(error.headers);
+    });
   }
 
 }

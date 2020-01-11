@@ -36,7 +36,6 @@ export class Tab3Page {
       this.speechRecognition.isRecognitionAvailable()
       .then((available: boolean) => {
         this.isSpeechAvailable = available;
-        document.getElementById("p1").innerHTML = "Permission accordée";
       })
       
     });

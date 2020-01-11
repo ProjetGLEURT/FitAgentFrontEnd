@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Two
+      Gerer vos activités
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -10,11 +10,21 @@
   
 
 <ion-content>
-  <ion-button id="loadEvent" ion-button (click)="loadEvent()" color="danger">Afficher vos activités</ion-button>
-  <div id="listEvent">
+  <ion-button id="loadEvent" ion-button (click)="loadEvent()" color="success">Charger vos activités</ion-button>
+  <div id="listEvent" *ngIf="hideList">
+      <ion-list>
+        <ion-item>
+          <ion-label>Activités</ion-label>
+          <ion-select [(ngModel)]='value' (ionChange)='showselected(value)' id='actlist'>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
   </div>
   <div id="infosEvent">
   </div>
+  <div *ngIf="hideDel"><ion-button id='delEvent' ion-button (click)='delEvent()' color='danger'>Supprimer cette activité</ion-button></div>
+  
+  
 </ion-content>
 
-<p id="p1">Hello World!</p>
