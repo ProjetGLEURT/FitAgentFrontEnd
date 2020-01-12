@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
+
 import { googleId } from '../APIKeys/googleId';
 import { GoogleService } from './global';
+import { HTTP } from '@ionic-native/http/ngx';
+import { Events } from '@ionic/angular';
  
 declare var window: any;
  
@@ -11,8 +13,7 @@ declare var window: any;
 })
 export class LoginService {
  
- constructor(private http: HttpClient,
-   private platform: Platform,public GoogleService:GoogleService) {}
+ constructor(private platform: Platform,public GoogleService:GoogleService,private http: HTTP,public events: Events) {}
  
  public login() {
    
@@ -21,8 +22,25 @@ export class LoginService {
      .then(success => 
 {
   this.GoogleService.tokenGoogle=success["access_token"];
-  this.GoogleService.loginState=true;
-  console.log('success')
+  document.getElementById("btnLog").innerHTML="Se Connecter<ion-spinner name='crescent'></ion-spinner>"
+
+
+
+  this.http.get('https://us-central1-fitagent.cloudfunctions.net/apiInfosUser', {}, {Authorization : "Bearer "+this.GoogleService.tokenGoogle})
+  .then(data => {
+    
+    let jsondata=JSON.parse(data.data)
+    console.log(jsondata)
+    this.GoogleService.emailGoogle=jsondata["infos"]["email"]
+    this.GoogleService.loginState=true
+    console.log(this.GoogleService.emailGoogle)
+    this.events.publish('user:connected', jsondata["infos"]["address"]);
+  })
+  .catch(error => {
+    console.log(error.status);
+    console.log(error.error); // error message as string
+    console.log(error);
+  });
 }
        , (error) => {
        console.error(error);
@@ -34,7 +52,7 @@ export class LoginService {
    return new Promise(function (resolve, reject) {
      const url = `https://accounts.google.com/o/oauth2/auth?client_id=${googleId}` +
        "&redirect_uri=http://localhost:8100" +
-       "&scope=https://www.googleapis.com/auth/plus.login" +  //ICI VOUS POUVEZ AJOUTER TOUT LES SCOPES NECESSAIRE A VOTRE APPLICATION
+       "&scope=email profile https://www.googleapis.com/auth/plus.login " +  "https://www.googleapis.com/auth/calendar "+"https://www.googleapis.com/auth/admin.directory.customer.readonly"+//ICI VOUS POUVEZ AJOUTER TOUT LES SCOPES NECESSAIRE A VOTRE APPLICATION
        "&response_type=token id_token";
      const browserRef = window.cordova.InAppBrowser.open(
        url,

@@ -4,4 +4,5 @@ import { Injectable } from '@angular/core';
 export class GoogleService {
   public loginState:boolean = false;
   public tokenGoogle:string = '';
+  public emailGoogle:string = '';
 }

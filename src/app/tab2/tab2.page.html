@@ -1,16 +1,16 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Gerer vos activités
+        <img height="20" width="20" src="../assets/logo.jpg">   Gerer vos activités
     </ion-title>
   </ion-toolbar>
 </ion-header>
- 
+
 
   
-
 <ion-content>
-  <ion-button id="loadEvent" ion-button (click)="loadEvent()" color="success">Charger vos activités</ion-button>
+    <br />
+  <ion-button class="ion-padding-horizontal" id="loadEvent" ion-button (click)="loadEvent()" expand="block">Charger vos activités</ion-button>
   <div id="listEvent" *ngIf="hideList">
       <ion-list>
         <ion-item>
@@ -27,4 +27,3 @@
   
   
 </ion-content>
-

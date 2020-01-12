@@ -38,8 +38,8 @@ export class AppComponent {
   private requestSpeechRecognitionPermission(): void {
     this.speechRecognition.requestPermission()
     .then(
-      () => document.getElementById("p1").innerHTML = "Permission accordée",
-      () => document.getElementById("p1").innerHTML = "Permission refusé"
+      () => console.log("Permission accordée"),
+      () => console.log("Permission refusé")
     )
   }
 }

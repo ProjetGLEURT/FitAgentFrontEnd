@@ -25,14 +25,18 @@ export class Tab2Page {
     });
   }
 
+
+
   public loadEvent(): void {
     this.hideDel=false
     this.hideList=true
     console.log(this.GoogleService.tokenGoogle)
     var buttonload=document.getElementById("loadEvent")
     buttonload.innerHTML="Charger vos activités<ion-spinner name='crescent'></ion-spinner>"
+    
 
-    this.http.get('https://us-central1-fitagent.cloudfunctions.net/apiActiviteUser', {}, {})
+    console.log(this.GoogleService.tokenGoogle)
+    this.http.get('https://us-central1-fitagent.cloudfunctions.net/apiActiviteUser', {}, {Authorization : "Bearer "+this.GoogleService.tokenGoogle})
     .then(data => {
       buttonload.innerHTML="Charger vos activités"
       console.log(data.data); // data received by server
@@ -77,10 +81,10 @@ export class Tab2Page {
 
   public delEvent(): void {
     console.log(this.GoogleService.tokenGoogle)
-    var buttondel=document.getElementById("loadEvent")
+    var buttondel=document.getElementById("delEvent")
     buttondel.innerHTML="Supprimer cette activité<ion-spinner name='crescent'></ion-spinner>"
 
-    this.http.get('https://us-central1-fitagent.cloudfunctions.net/apiSupprimerActiviteUser?id='+this.actualeventshow, {}, {})
+    this.http.get('https://us-central1-fitagent.cloudfunctions.net/apiSupprimerActiviteUser?id='+this.actualeventshow, {}, {Authorization : "Bearer "+this.GoogleService.tokenGoogle})
     .then(data => {
       buttondel.innerHTML="Supprimer cette activité"
       var actlist=document.getElementById("actlist")

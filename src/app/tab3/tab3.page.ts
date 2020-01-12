@@ -5,6 +5,7 @@ import { Platform } from '@ionic/angular';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { FormControl, FormBuilder } from '@angular/forms';
+import { GoogleService } from './../global';
 
 
 
@@ -24,8 +25,9 @@ export class Tab3Page {
   isSpeechAvailable=false;
   isListening = false;
   matches: Array<string> = [];
+  automode:boolean=false;
 
-  constructor(public platform: Platform,private speechRecognition: SpeechRecognition,private tts: TextToSpeech,private changeDetectorRef: ChangeDetectorRef) {
+  constructor(public platform: Platform,private speechRecognition: SpeechRecognition,private tts: TextToSpeech,private changeDetectorRef: ChangeDetectorRef,public GoogleService:GoogleService) {
     this.chatBox = '';
     this.client = new ApiAiClient({
       accessToken: this.accessToken
@@ -42,17 +44,27 @@ export class Tab3Page {
   }
 
   public sendMessage(): void {
+    var btnstart=document.getElementById("startLi") 
+    btnstart.innerHTML="Start<ion-spinner name='crescent'></ion-spinner>"
     let req=this.actualspeech;
     if (!req || req === '') {
       return;
     }
     this.isLoading = true;
-
+    console.log(this.GoogleService.tokenGoogle)
     this.client
-      .textRequest(req)
+      .textRequest(req,{contexts: [{
+        'name': 'test11',
+        'lifespan': 5,
+        'parameters': {
+          'token':this.GoogleService.tokenGoogle,
+          'email':this.GoogleService.emailGoogle
+        }
+      }]})
       .then(response => {
         console.log('res');
         console.log(response);
+        btnstart.innerHTML="Start"
         document.getElementById("p2").innerHTML = response.result.fulfillment.speech;
         this.tts.speak(
           {
@@ -60,7 +72,9 @@ export class Tab3Page {
             locale: "fr-FR",
             rate: 1
           })
-        .then(() => console.log('Success'))
+        .then(() => {console.log('Success')
+        if (this.automode){this.startListening()}
+      })
         .catch((reason: any) => console.log(reason));
         this.isLoading = false;
       })
@@ -71,6 +85,9 @@ export class Tab3Page {
 
     this.chatBox = '';
   }
+
+
+
   public startListening(): void {
     this.isListening = true;
     this.matches = [];
@@ -79,7 +96,7 @@ export class Tab3Page {
       language: 'fr-FR',
       matches: 1,
       prompt: 'Je vous écoute ! :)',  // Android only
-      showPopup: false,                // Android only
+      showPopup: true,                // Android only
       showPartial: false              // iOS only
     }
     this.speechRecognition.startListening(options)
@@ -89,6 +106,7 @@ export class Tab3Page {
         this.matches[0] = matches[0];
         this.changeDetectorRef.detectChanges();
         this.actualspeech=matches[0];
+        if (this.automode){this.sendMessage()}
       },
       (onerror) => {
         this.isListening = false;
@@ -101,5 +119,11 @@ export class Tab3Page {
 public stopListening(): void {
   this.speechRecognition.stopListening();
 }
+
+
+public tog(value:boolean):void{
+  this.automode=value
+}
+
 
 }

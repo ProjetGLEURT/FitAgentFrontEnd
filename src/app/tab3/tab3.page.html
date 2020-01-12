@@ -1,28 +1,32 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Assitant conversationnel
+        <img height="20" width="20" src="../assets/logo.jpg">   Assistant conversationnel
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <ion-item>
+        <ion-label>Mode Discussion Automatique</ion-label>
+        <ion-toggle  [(ngModel)]='value' (ionChange)='tog(value)' color="success" slot="start" name="automatic"></ion-toggle>
+    </ion-item>
   <div class="intro-wrapper">
-    <p>Appuyez sur 'Start !' puis parlez à votre appareil de manière clair et reposé</p>
-    <ion-button ion-button (click)="startListening()" color="success">Start</ion-button>
-    <ion-button ion-button (click)="stopListening()" color="danger">Stop</ion-button>
+    <p>Appuyez sur 'Start' puis parlez à votre appareil de manière clair et reposé</p>
+    <ion-button ion-button (click)="startListening()" expand="full" color="secondary" id="startLi">Start</ion-button>
   </div>
   <ion-list class="matches-wrapper">
     <ion-item *ngIf="matches.length <= 0">
-      Aucun résultat :S
+      Aucun résultat
     </ion-item>
     <ion-item *ngFor="let match of matches">
       {{ match }}
     </ion-item>
   </ion-list>
 
-  <ion-button ion-button (click)="sendMessage()" color="success">Envoyer la premiére reponse</ion-button>
+  <ion-button ion-button (click)="sendMessage()" color="success">Envoyer la reponse</ion-button>
+  
 </ion-content>
 
 
-<p id="p2">Hello World!</p>
+<p id="p2">Demarer la conversation avec votre assistant</p>
