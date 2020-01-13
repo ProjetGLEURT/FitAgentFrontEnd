@@ -6,12 +6,12 @@
       <ion-label>Google</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="tab2" *ngIf="this.GoogleService.tokenGoogle">
+    <ion-tab-button tab="tab2" *ngIf="this.GoogleService.loginState">
       <ion-icon name="apps"></ion-icon>
       <ion-label>Activités</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="tab3" *ngIf="this.GoogleService.tokenGoogle">
+    <ion-tab-button tab="tab3" *ngIf="this.GoogleService.loginState">
       <ion-icon name="send"></ion-icon>
       <ion-label>Assistant</ion-label>
     </ion-tab-button>

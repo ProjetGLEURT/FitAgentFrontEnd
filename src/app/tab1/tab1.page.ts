@@ -11,7 +11,7 @@ import { HTTP } from '@ionic-native/http/ngx';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-  public address: string = 'address';
+  address: string = 'address';
   hideUp=false;
   form={}
   
@@ -21,6 +21,8 @@ export class Tab1Page {
       this.askInfos(addr)
     });
   }
+
+  
 
   public askInfos(addr:string):void{
     document.getElementById("infosUser").innerHTML=""

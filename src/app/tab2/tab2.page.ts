@@ -26,29 +26,27 @@ export class Tab2Page {
   }
 
 
-
   public loadEvent(): void {
     this.hideDel=false
     this.hideList=true
     console.log(this.GoogleService.tokenGoogle)
-    var buttonload=document.getElementById("loadEvent")
-    buttonload.innerHTML="Charger vos activités<ion-spinner name='crescent'></ion-spinner>"
-    
+    let buttonload=document.getElementById("loadEvent")
 
-    console.log(this.GoogleService.tokenGoogle)
+    buttonload.innerHTML="Charger vos activités<ion-spinner name='crescent'></ion-spinner>"
+
     this.http.get('https://us-central1-fitagent.cloudfunctions.net/apiActiviteUser', {}, {Authorization : "Bearer "+this.GoogleService.tokenGoogle})
     .then(data => {
       buttonload.innerHTML="Charger vos activités"
-      console.log(data.data); // data received by server
-      var jsonData = JSON.parse(data.data);
+      console.log(data.data); 
+      let jsonData = JSON.parse(data.data);
       this.jsonevent=jsonData;
-      var actlist=document.getElementById("actlist")
+      let actlist=document.getElementById("actlist")
       actlist.innerHTML=""
       console.log(jsonData)
       for (var key in jsonData) {
         console.log("Key: " + key); 
         console.log("Value: " + jsonData[key]); 
-        var infos=jsonData[key]
+        let infos=jsonData[key]
         actlist.innerHTML+="<ion-select-option value="+key+">"+infos["name"]+"</ion-select-option>"
     }
     })
@@ -59,16 +57,14 @@ export class Tab2Page {
     });
   }
 
-
-
   public showselected(value:string): void {
     console.log(value)
     this.hideDel=true
     this.actualeventshow=value
-    var divlEvent=document.getElementById("infosEvent")
+    let divlEvent=document.getElementById("infosEvent")
     let listeinfos="<ion-list>"
     listeinfos+="<ion-list-header><h2>"+this.jsonevent[value]["name"]+"</h2></ion-list-header>"
-    listeinfos+="<ion-item><ion-label>Adresse : "+this.jsonevent[value]["address"]+"</ion-label></ion-item>"
+    listeinfos+="<ion-item><ion-label>Adresse : "+this.jsonevent[value]["address"]["address"]+"</ion-label></ion-item>"
     listeinfos+="<ion-item><ion-label>Durée : "+this.jsonevent[value]["duration"]+"</ion-label></ion-item>"
     listeinfos+="<ion-item><ion-label>Fréquence : "+this.jsonevent[value]["frequence"]+"</ion-label></ion-item>"
     listeinfos+="<ion-item><ion-label>Nombre de seance sur la période : "+this.jsonevent[value]["nbSeance"]+"</ion-label></ion-item>"
@@ -81,15 +77,15 @@ export class Tab2Page {
 
   public delEvent(): void {
     console.log(this.GoogleService.tokenGoogle)
-    var buttondel=document.getElementById("delEvent")
+    let buttondel=document.getElementById("delEvent")
     buttondel.innerHTML="Supprimer cette activité<ion-spinner name='crescent'></ion-spinner>"
 
     this.http.get('https://us-central1-fitagent.cloudfunctions.net/apiSupprimerActiviteUser?id='+this.actualeventshow, {}, {Authorization : "Bearer "+this.GoogleService.tokenGoogle})
     .then(data => {
       buttondel.innerHTML="Supprimer cette activité"
-      var actlist=document.getElementById("actlist")
+      let actlist=document.getElementById("actlist")
       actlist.innerHTML=""
-      var divlEvent=document.getElementById("infosEvent")
+      let divlEvent=document.getElementById("infosEvent")
       divlEvent.innerHTML=""
       this.loadEvent()
       console.log(data.data); // data received by server

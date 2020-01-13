@@ -11,8 +11,9 @@
         <ion-label>Mode Discussion Automatique</ion-label>
         <ion-toggle  [(ngModel)]='value' (ionChange)='tog(value)' color="success" slot="start" name="automatic"></ion-toggle>
     </ion-item>
+
   <div class="intro-wrapper">
-    <p>Appuyez sur 'Start' puis parlez à votre appareil de manière clair et reposé</p>
+    <p>Appuyez sur 'Start' puis parlez à votre appareil de manière claire et reposée</p>
     <ion-button ion-button (click)="startListening()" expand="full" color="secondary" id="startLi">Start</ion-button>
   </div>
   <ion-list class="matches-wrapper">

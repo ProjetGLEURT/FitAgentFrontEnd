@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 
 import { googleId } from '../APIKeys/googleId';
-import { GoogleService } from './global';
 import { HTTP } from '@ionic-native/http/ngx';
 import { Events } from '@ionic/angular';
+import { GoogleService } from './global';
  
 declare var window: any;
- 
 @Injectable({
  providedIn: 'root'
 })
@@ -24,8 +23,6 @@ export class LoginService {
   this.GoogleService.tokenGoogle=success["access_token"];
   document.getElementById("btnLog").innerHTML="Se Connecter<ion-spinner name='crescent'></ion-spinner>"
 
-
-
   this.http.get('https://us-central1-fitagent.cloudfunctions.net/apiInfosUser', {}, {Authorization : "Bearer "+this.GoogleService.tokenGoogle})
   .then(data => {
     
@@ -34,7 +31,9 @@ export class LoginService {
     this.GoogleService.emailGoogle=jsondata["infos"]["email"]
     this.GoogleService.loginState=true
     console.log(this.GoogleService.emailGoogle)
+
     this.events.publish('user:connected', jsondata["infos"]["address"]);
+    
   })
   .catch(error => {
     console.log(error.status);
@@ -46,7 +45,7 @@ export class LoginService {
        console.error(error);
      });
  };
- 
+
  
  public googleLogin(): Promise<any> {
    return new Promise(function (resolve, reject) {

@@ -4,7 +4,6 @@ import { ApiAiClient } from 'api-ai-javascript/es6/ApiAiClient'
 import { Platform } from '@ionic/angular';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
-import { FormControl, FormBuilder } from '@angular/forms';
 import { GoogleService } from './../global';
 
 
@@ -16,6 +15,8 @@ import { GoogleService } from './../global';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
+  automode:boolean=false;
+
   actualspeech: string = '';
   accessToken: string = '9e3fa9be49fa4347a538806b647630f7';
   client;
@@ -25,7 +26,7 @@ export class Tab3Page {
   isSpeechAvailable=false;
   isListening = false;
   matches: Array<string> = [];
-  automode:boolean=false;
+  
 
   constructor(public platform: Platform,private speechRecognition: SpeechRecognition,private tts: TextToSpeech,private changeDetectorRef: ChangeDetectorRef,public GoogleService:GoogleService) {
     this.chatBox = '';
@@ -44,7 +45,7 @@ export class Tab3Page {
   }
 
   public sendMessage(): void {
-    var btnstart=document.getElementById("startLi") 
+    let btnstart=document.getElementById("startLi") 
     btnstart.innerHTML="Start<ion-spinner name='crescent'></ion-spinner>"
     let req=this.actualspeech;
     if (!req || req === '') {
@@ -62,7 +63,6 @@ export class Tab3Page {
         }
       }]})
       .then(response => {
-        console.log('res');
         console.log(response);
         btnstart.innerHTML="Start"
         document.getElementById("p2").innerHTML = response.result.fulfillment.speech;
