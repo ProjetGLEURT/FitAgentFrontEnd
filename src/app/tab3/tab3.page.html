@@ -1,16 +1,16 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-        <img height="20" width="20" src="../assets/logo.jpg">   Assistant conversationnel
+      <img height="20" width="20" src="../assets/logo.jpg"> Assistant conversationnel
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-item>
-        <ion-label>Mode Discussion Automatique</ion-label>
-        <ion-toggle  [(ngModel)]='value' (ionChange)='tog(value)' color="success" slot="start" name="automatic"></ion-toggle>
-    </ion-item>
+  <ion-item>
+    <ion-label>Mode Discussion Automatique</ion-label>
+    <ion-toggle [(ngModel)]='value' (ionChange)='tog(value)' color="success" slot="start" name="automatic"></ion-toggle>
+  </ion-item>
 
   <div class="intro-wrapper">
     <p>Appuyez sur 'Start' puis parlez à votre appareil de manière claire et reposée</p>
@@ -26,7 +26,7 @@
   </ion-list>
 
   <ion-button ion-button (click)="sendMessage()" color="success">Envoyer la reponse</ion-button>
-  
+
 </ion-content>
 
 

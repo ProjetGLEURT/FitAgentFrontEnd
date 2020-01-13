@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-        <img height="20" width="20" src="../assets/logo.jpg">   Connexion Google
+      <img height="20" width="20" src="../assets/logo.jpg"> Connexion Google
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,32 +12,34 @@
       <ion-label>Bienvenue dans FitAgent</ion-label>
     </ion-item>
   </ion-list>
-  <ion-button id="btnLog" class="ion-padding-horizontal" ion-button (click)="loginService.login()" color="success" expand="block" size="large">Se Connecter</ion-button>
+  <ion-button id="btnLog" class="ion-padding-horizontal" ion-button (click)="loginService.login()" color="success"
+    expand="block" size="large">Se Connecter</ion-button>
   <div id="infosUser">
-  <ion-list-header>
+    <ion-list-header>
       Veuillez vous connecter pour acceder au reste de l'application
-  </ion-list-header>
+    </ion-list-header>
+    <br />
+    <img width=100% src="../assets/pres.jpg">
+    <br />
+
+    <p class="ion-padding-horizontal">FitAgent est un Assistant conversationnel qui vous permet de rajouter des
+      activités sportives dans votre emploie du temps en recherchant les crenaux optimaux (metéo, horaire des salles de
+      sport, etc ...)</p>
+
+  </div>
+
+
   <br />
-  <img width=100% src="../assets/pres.jpg">
-  <br />
-  
-  <p  class="ion-padding-horizontal">FitAgent est un Assistant conversationnel qui vous permet de rajouter des activités sportives dans votre emploie du temps en recherchant les crenaux optimaux (metéo, horaire des salles de sport, etc ...)</p>
-
-</div>
-
-
-<br />
   <form *ngIf="hideUp" (ngSubmit)="update()" class="ion-padding-horizontal">
-      <h3 class="ion-text-center">Mettre à jour votre adresse</h3>
-      <br />
-      <ion-item>
-        <ion-label>Domicile : </ion-label>
-        <ion-input placeholder="{{address}}" type="text" [(ngModel)]="form.addr" name="addr"></ion-input>
-      </ion-item>
-      <br />
-      <ion-button id="btnUp" size="large" type="submit" expand="block">Mettre à jour</ion-button>
-    </form>
+    <h3 class="ion-text-center">Mettre à jour votre adresse</h3>
+    <br />
+    <ion-item>
+      <ion-label>Domicile : </ion-label>
+      <ion-input placeholder="{{address}}" type="text" [(ngModel)]="form.addr" name="addr"></ion-input>
+    </ion-item>
+    <br />
+    <ion-button id="btnUp" size="large" type="submit" expand="block">Mettre à jour</ion-button>
+  </form>
 
 
 </ion-content>
-
